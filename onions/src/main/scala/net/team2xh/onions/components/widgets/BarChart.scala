@@ -47,8 +47,7 @@ case class BarChart[T: Numeric](parent: FramePanel, values: Varying[Seq[T]], lab
     val valueMin = min.getOrElse(Math.aBitLessThanMin(vs))
     val valueMax = max.getOrElse(Math.aBitMoreThanMax(vs))
     // Draw grid
-    Drawing.drawGrid(0, 0, graphWidth, graphHeight, gridWidth, theme.accent1, theme.background,
-                     showVertical = true, showHorizontal = false)
+    Drawing.drawGrid(0, 0, graphWidth, graphHeight, gridWidth, theme.accent1, theme.background, showHorizontal = false)
     // Draw bars
     val spacing = graphHeight / (vs.length - 1)
     val spaceTop = (graphHeight - (vs.length - 1) * spacing - 1) / 2
@@ -84,7 +83,7 @@ case class BarChart[T: Numeric](parent: FramePanel, values: Varying[Seq[T]], lab
       }
     // Draw grid values
     Drawing.drawAxisValues(0, innerHeight - 1, graphWidth, gridWidth, valueMin, valueMax,
-                           theme.accent3, theme.background, horizontal = true)
+                           theme.accent3, theme.background)
   }
 
   override def handleKeypress(keypress: Int): Unit = { }

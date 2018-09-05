@@ -1,13 +1,10 @@
 package net.team2xh.scurses
 
 import java.io.BufferedOutputStream
-import java.util.{TimerTask, Timer}
+import java.util.{Timer, TimerTask}
 
 import net.team2xh.scurses.RichText._
-import sun.misc.{SignalHandler, Signal}
-
-import scala.collection.mutable
-import scala.concurrent.Future
+import sun.misc.Signal
 
 object Scurses {
 
@@ -47,7 +44,7 @@ class Scurses {
   var clipX1 = 0
   var clipY1 = 0
 
-  def outOfBounds(x: Int, y: Int) =
+  def outOfBounds(x: Int, y: Int): Boolean =
     isClipped && (x + offsetX < clipX0 || x + offsetX >= clipX1 || y + offsetY < clipY0 || y + offsetY >= clipY1)
 
   init()
@@ -229,19 +226,21 @@ class Scurses {
    */
   def init(): Unit = {
     System.setProperty("java.awt.headless", "true")
-    Signal.handle(new Signal("WINCH"), new SignalHandler {
-      override def handle(signal: Signal): Unit = {
-        Scurses.this.synchronized { resizesInProgress += 1 }
-        new Timer().schedule(new TimerTask {
-          override def run(): Unit = {
-            if (resizesInProgress == 1) {
-              ec.status()
-              out.flush()
-            }
-            Scurses.this.synchronized { resizesInProgress -= 1 }
-          }
-        }, 100)
+    Signal.handle(new Signal("WINCH"), (_: Signal) => {
+      Scurses.this.synchronized {
+        resizesInProgress += 1
       }
+      new Timer().schedule(new TimerTask {
+        override def run(): Unit = {
+          if (resizesInProgress == 1) {
+            ec.status()
+            out.flush()
+          }
+          Scurses.this.synchronized {
+            resizesInProgress -= 1
+          }
+        }
+      }, 100)
     })
     ec.alternateBuffer()
     ec.clear()

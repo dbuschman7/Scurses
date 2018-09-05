@@ -5,7 +5,7 @@ object Keys {
   val PUA = 0xE000 // Unicode private use area, safe for our own codes
 
   // Resize signal
-  val RESIZE = PUA + 1000
+  val RESIZE: Int = PUA + 1000
 
   // Normal keys
   val CTRL_SPACE = 0
@@ -17,11 +17,11 @@ object Keys {
   val BACKSPACE  = 127
 
   // CSI keys
-  val UP        = PUA + 0
-  val DOWN      = PUA + 1
-  val LEFT      = PUA + 2
-  val RIGHT     = PUA + 3
-  val SHIFT_TAB = PUA + 4
+  val UP: Int = PUA + 0
+  val DOWN: Int = PUA + 1
+  val LEFT: Int = PUA + 2
+  val RIGHT: Int = PUA + 3
+  val SHIFT_TAB: Int = PUA + 4
 
   def repr(key: Int): String = key match {
     case RESIZE    => "RESIZE"

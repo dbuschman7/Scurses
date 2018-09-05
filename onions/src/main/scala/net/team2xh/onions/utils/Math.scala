@@ -5,15 +5,15 @@ import Numeric.Implicits._
 
 object Math {
 
-  def aBitMoreThanMax[T: Numeric](ns: Seq[T]) = {
+  def aBitMoreThanMax[T: Numeric](ns: Seq[T]): Int = {
     ns.max.toInt + math.pow(10, math.log10(ns.max.toDouble / 10.0)).toInt
   }
 
-  def aBitLessThanMin[T: Numeric](ns: Seq[T]) = {
+  def aBitLessThanMin[T: Numeric](ns: Seq[T]): Int = {
     ns.min.toInt - math.pow(10, math.log10(ns.min.toDouble.abs / 10.0)).toInt
   }
 
-  val `√2π` = math.sqrt(2 * math.Pi)
+  val `√2π`: Double = math.sqrt(2 * math.Pi)
 
   def gauss1d(x: Double, σ: Double, μ: Double = 0.0): Double = {
     val a = 1 / (σ * `√2π`)
@@ -34,7 +34,7 @@ object Math {
 
   case class GaussianArray(width: Int, height: Int, kernelRadius: Int = 1) {
 
-    val array = ArrayBuffer.fill[Double](width, height)(0.0)
+    val array: ArrayBuffer[ArrayBuffer[Double]] = ArrayBuffer.fill[Double](width, height)(0.0)
 
     def add(x0: Int, y0: Int): Unit = {
       for (x <- -kernelRadius to kernelRadius; y <- -kernelRadius to kernelRadius) {

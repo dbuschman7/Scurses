@@ -81,7 +81,7 @@ object Drawing {
         screen.put(x, y, Symbols.SH_X_SV, fg, bg)
   }
 
-  def clipText(text: String, limit: Int, before: Boolean = false) =
+  def clipText(text: String, limit: Int, before: Boolean = false): String =
     if (text.length > limit) {
       val clipped = text.substring(if (before) text.length - limit + 3 else 0,
                                    if (before) text.length else limit - 3)

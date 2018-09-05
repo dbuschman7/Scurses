@@ -1,7 +1,5 @@
 package net.team2xh.onions
 
-import net.team2xh.scurses.Colors
-
 object Themes {
 
   sealed trait ColorScheme {
@@ -16,7 +14,7 @@ object Themes {
     def background(focus: Boolean): Int = if (focus) focusBackground else background
   }
 
-  val default = new ColorScheme {
+  val default: ColorScheme = new ColorScheme {
     override val foreground = 15
     override val background = 0
     override val focusForeground = 0
@@ -26,7 +24,7 @@ object Themes {
     override val accent3 = 250
   }
 
-  val light = new ColorScheme {
+  val light: ColorScheme = new ColorScheme {
     override val foreground: Int = 242
     override val background: Int = 255
     override val focusForeground: Int = 0
@@ -36,7 +34,7 @@ object Themes {
     override val accent2: Int = 249
   }
 
-  val MSDOS = new ColorScheme {
+  val MSDOS: ColorScheme = new ColorScheme {
     override val foreground: Int = 248
     override val background: Int = 4
     override val focusForeground: Int = 0

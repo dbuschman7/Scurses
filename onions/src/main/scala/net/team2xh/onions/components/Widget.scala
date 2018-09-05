@@ -30,5 +30,5 @@ abstract class Widget(parent: FramePanel, values: Varying[_] *)
 
   override def innerWidth: Int = parent.innerWidth - 3
 
-  override def toString = this.getClass.getSimpleName + " @ " + Integer.toHexString(System.identityHashCode(this))
+  override def toString: String = this.getClass.getSimpleName + " @ " + Integer.toHexString(System.identityHashCode(this))
 }

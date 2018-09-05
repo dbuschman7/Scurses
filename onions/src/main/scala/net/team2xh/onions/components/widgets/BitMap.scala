@@ -2,12 +2,14 @@ package net.team2xh.onions.components.widgets
 
 import java.awt.image.BufferedImage
 import java.io.File
-import javax.imageio.ImageIO
 
+import javax.imageio.ImageIO
 import net.team2xh.onions.Symbols
 import net.team2xh.onions.Themes.ColorScheme
 import net.team2xh.onions.components.{FramePanel, Widget}
 import net.team2xh.scurses.{Colors, Scurses}
+
+import scala.collection.immutable
 
 object BitMap {
 
@@ -26,7 +28,7 @@ object BitMap {
 class BitMap(parent: FramePanel, image: BufferedImage)
                  (implicit screen: Scurses) extends Widget(parent) {
 
-  val colors = {
+  val colors: immutable.IndexedSeq[immutable.IndexedSeq[(Int, Int)]] = {
     val width = image.getWidth
     val height = image.getHeight
     for (x <- 0 until width)

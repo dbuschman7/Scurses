@@ -9,11 +9,11 @@ import net.team2xh.scurses.Scurses
 case class RichLabel(parent: FramePanel, text: Varying[RichText])
                     (implicit screen: Scurses) extends Widget(parent, text) {
 
-  var lines = Seq[RichText]()
+  var lines: Seq[RichText] = Seq[RichText]()
 
   override def redraw(focus: Boolean, theme: ColorScheme): Unit = {
     lines = TextWrap.wrapText(text.value, innerWidth - 1)
-    for ((line, i) <- lines.zipWithIndex) {
+    for ((_, i) <- lines.zipWithIndex) {
       screen.putRichText(1, i, lines(i), theme.foreground, theme.background)
     }
   }

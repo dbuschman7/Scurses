@@ -23,7 +23,7 @@ object Varying {
 
 class Varying[T](initialValue: T) {
 
-  var storedValue = initialValue
+  var storedValue: T = initialValue
   private var callbacks: List[() => Unit] = Nil
 
   def :=(newValue: T): Varying[T] = {
@@ -36,5 +36,5 @@ class Varying[T](initialValue: T) {
     callbacks ::= callback
   }
 
-  def value = storedValue
+  def value: T = storedValue
 }

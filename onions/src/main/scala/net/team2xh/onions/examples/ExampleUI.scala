@@ -22,7 +22,7 @@ object ExampleUI extends App {
                         10, 2, 13, -5, -8, 3, -15)
   var values_2d_1: Varying[Seq[(Int, Int)]] = Seq()
   def generateData(): Unit =
-    values_2d_1 := (1 to 50) map (i => {
+    values_2d_1 := (1 to 50) map (_ => {
       val x = r.nextInt(40)
       val y = 50 - x + (r.nextGaussian() * 5).toInt - 2
       (x, y max 0)
@@ -34,7 +34,7 @@ object ExampleUI extends App {
   generateData()
 
   Scurses { implicit screen =>
-    implicit val debug = true
+    implicit val debug: Boolean = true
     val frame = Frame(title = Some("Example Onions UI - Powered by Scurses"),
                       debug = true, theme = Themes.default)
 

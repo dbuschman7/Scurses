@@ -3,7 +3,7 @@ package net.team2xh.onions.components.widgets
 import net.team2xh.onions.components.FramePanel
 import net.team2xh.onions.components.widgets.BigText.{empty, symbols}
 import net.team2xh.onions.utils.Varying
-import net.team2xh.scurses.{Colors, Scurses}
+import net.team2xh.scurses.Scurses
 
 case class BigText(parent: FramePanel, text: Varying[String])
                   (implicit screen: Scurses) extends FontMapper(parent, empty, symbols, text, -1)

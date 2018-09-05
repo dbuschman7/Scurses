@@ -21,7 +21,7 @@ object Colors {
   val BRIGHT_CYAN    = 14
   val BRIGHT_WHITE   = 15
 
-  def fromName(name: String) = name match {
+  def fromName(name: String): Int = name match {
     case "black"   => DIM_BLACK
     case "red"     => BRIGHT_RED
     case "green"   => BRIGHT_GREEN

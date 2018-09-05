@@ -4,13 +4,14 @@ import java.util.{Timer, TimerTask}
 
 import net.team2xh.scurses.Scurses
 
+import scala.collection.immutable
 import scala.util.Random
 
 case class GameOfLife(width: Int, height: Int, wrapAround: Boolean = false) {
 
-  var cells = for (y <- 0 until height) yield for (x <- 0 until width) yield 0
+  var cells: immutable.IndexedSeq[immutable.IndexedSeq[Int]] = for (_ <- 0 until height) yield for (_ <- 0 until width) yield 0
 
-  def field = cells
+  def field: immutable.IndexedSeq[immutable.IndexedSeq[Int]] = cells
 
   def set(x0: Int, y0: Int, value: Int = 1): Unit = {
     cells = for (y <- 0 until height) yield for (x <- 0 until width) yield {
@@ -49,7 +50,7 @@ case class GameOfLife(width: Int, height: Int, wrapAround: Boolean = false) {
     else 0
   }
 
-  def step() = {
+  def step(): Unit = {
     cells =
       for (y <- 0 until height) yield {
         for (x <- 0 until width) yield {
@@ -60,7 +61,7 @@ case class GameOfLife(width: Int, height: Int, wrapAround: Boolean = false) {
 
   def randomize(n: Int): Unit = {
     val r = Random
-    for (i <- 0 until n) {
+    for (_ <- 0 until n) {
       set(r.nextInt(width), r.nextInt(height))
     }
   }

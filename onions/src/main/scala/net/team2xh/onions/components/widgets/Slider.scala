@@ -2,8 +2,8 @@ package net.team2xh.onions.components.widgets
 
 import net.team2xh.onions.Symbols
 import net.team2xh.onions.Themes.ColorScheme
-import net.team2xh.onions.components.{Widget, FramePanel}
-import net.team2xh.onions.utils.{Drawing, Varying}
+import net.team2xh.onions.components.{FramePanel, Widget}
+import net.team2xh.onions.utils.Varying
 import net.team2xh.scurses.{Keys, Scurses}
 
 case class Slider(parent: FramePanel, minValue: Int, maxValue: Int)

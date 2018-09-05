@@ -6,7 +6,7 @@ import net.team2xh.onions.components.{Widget, FramePanel}
 import net.team2xh.scurses.Scurses
 
 object Separator {
-  def apply(parent: FramePanel, symbol: String = Symbols.SH)(implicit screen: Scurses) = {
+  def apply(parent: FramePanel, symbol: String = Symbols.SH)(implicit screen: Scurses): Separator = {
     new Separator(parent, symbol)
   }
 }

@@ -16,17 +16,18 @@ case class Frame(title: Option[String] = None, var debug: Varying[Boolean] = fal
     clear()
     panel.markAllForRedraw()
   }
+
   debug.subscribe { () =>
     clear()
     panel.markAllForRedraw()
   }
 
-  def currentTheme = theme.value
+  def currentTheme: ColorScheme = theme.value
   
   val panel = FramePanel(this)
   panel.focus = true
 
-  var focusedPanel = panel
+  var focusedPanel: FramePanel = panel
 
   private[Frame] val titleOffset = 2
 
@@ -39,10 +40,10 @@ case class Frame(title: Option[String] = None, var debug: Varying[Boolean] = fal
 
   resize(screen.size)
 
-  def innerWidth = width
-  def innerHeight = height - (if (debug.value) 1 else 0) - (if (title.isDefined) titleOffset else 0)
+  def innerWidth: Int = width
+  def innerHeight: Int = height - (if (debug.value) 1 else 0) - (if (title.isDefined) titleOffset else 0)
 
-  var lastKeypress = -1
+  var lastKeypress: Int = -1
 
   def show(): Unit = {
     redraw()
@@ -103,8 +104,8 @@ case class Frame(title: Option[String] = None, var debug: Varying[Boolean] = fal
           val t = if (k == Keys.TAB) tree else tree.reverse
           val next = t.dropWhile(_.id != focusedPanel.id).tail.headOption
           next match {
-            case Some(panel) =>
-              switchFocusTo(panel)
+            case Some(p) =>
+              switchFocusTo(p)
             case None =>
               if (k == Keys.TAB)
                 switchFocusTo(panel)

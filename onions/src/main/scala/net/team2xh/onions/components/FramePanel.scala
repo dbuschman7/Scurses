@@ -50,18 +50,18 @@ case class FramePanel(parent: Component)
   var redrawBorders = true
 
   var currentTab = 0
-  var tabs =
+  var tabs: mutable.MutableList[(ListBuffer[Widget], Int, ListBuffer[Int])] =
     mutable.MutableList[(ListBuffer[Widget], Int, ListBuffer[Int])]((ListBuffer[Widget](), 0, ListBuffer[Int]()))
 
-  def widgets = tabs(currentTab)._1
-  def widgetFocus = tabs(currentTab)._2
-  def heights = tabs(currentTab)._3
+  def widgets: ListBuffer[Widget] = tabs(currentTab)._1
+  def widgetFocus: Int = tabs(currentTab)._2
+  def heights: ListBuffer[Int] = tabs(currentTab)._3
 
-  val id = FramePanel.idCounter
+  val id: Int = FramePanel.idCounter
   FramePanel.idCounter += 1
 
-  def innerWidth = width
-  def innerHeight = height
+  def innerWidth: Int = width
+  def innerHeight: Int = height
 
   def addWidget(widget: Widget): Unit = {
     widgets += widget
@@ -171,9 +171,9 @@ case class FramePanel(parent: Component)
     }
   }
 
-  def focusPreviousWidget = focusSomeWidget(previousFocusableWidget)
+  def focusPreviousWidget: Boolean = focusSomeWidget(previousFocusableWidget)
 
-  def focusNextWidget = focusSomeWidget(nextFocusableWidget)
+  def focusNextWidget: Boolean = focusSomeWidget(nextFocusableWidget)
 
   def markAllForRedraw(): Unit = {
     getTreeWalk.foreach { panel =>
@@ -182,8 +182,8 @@ case class FramePanel(parent: Component)
     }
   }
 
-  def getNextDirection(direction: (FramePanel) => Option[FramePanel],
-                   fallback: (FramePanel) => Option[FramePanel]): Option[FramePanel] = {
+  def getNextDirection(direction: FramePanel => Option[FramePanel],
+                   fallback: FramePanel => Option[FramePanel]): Option[FramePanel] = {
     direction(this) match {
       case Some(panel) => Some(panel)
       case None =>
@@ -206,8 +206,8 @@ case class FramePanel(parent: Component)
     (t._1 + height + b._1, t._2 + 1 + b._2)
   }
 
-  private[FramePanel] def total(direction: (FramePanel) => Option[FramePanel],
-                                attribute: (FramePanel) => Int): (Int, Int) = {
+  private[FramePanel] def total(direction: FramePanel => Option[FramePanel],
+                                attribute: FramePanel => Int): (Int, Int) = {
     direction(this) match {
       case None => (0, 0)
       case Some(panel) =>
@@ -226,8 +226,8 @@ case class FramePanel(parent: Component)
     resize(_.bottom, _.height = rowHeight)
   }
 
-  private[FramePanel] def resize(direction: (FramePanel) => Option[FramePanel],
-                                 setter: (FramePanel) => Unit): Unit = {
+  private[FramePanel] def resize(direction: FramePanel => Option[FramePanel],
+                                 setter: FramePanel => Unit): Unit = {
     direction(this) foreach {
       panel =>
         setter(panel)
@@ -257,7 +257,7 @@ case class FramePanel(parent: Component)
         case None => false
         case Some(panel) => panel.hasAnyLeft
       }
-    case Some(panel) => true
+    case Some(_) => true
   }
 
   private[FramePanel] def hasAnyRight: Boolean = right match {
@@ -266,14 +266,14 @@ case class FramePanel(parent: Component)
         case None => false
         case Some(panel) => panel.hasAnyRight
       }
-    case Some(panel) => true
+    case Some(_) => true
   }
 
   private[FramePanel] def drawEdges(theme: ColorScheme): Unit = {
     propagateDraw(_.drawEdges(theme))
 
     // Vertical edges
-    for (y <- 1 to height - 1) {
+    for (y <- 1 until height) {
       screen.put(width, y, Symbols.SV,
         foreground = theme.foreground, background = theme.background)
       if (left.isEmpty)
@@ -340,7 +340,7 @@ case class FramePanel(parent: Component)
 
   private[FramePanel] def drawTitles(theme: ColorScheme): Unit = {
     propagateDraw(_.drawTitles(theme))
-    val ts = tabs.zipWithIndex.map { case (t, i) =>
+    val ts = tabs.zipWithIndex.map { case (_, i) =>
       val s = if (i == currentTab) "[r]" else ""
       val e = if (i == currentTab) "[/r]" else ""
       s"$s#${i+1}$e"
@@ -373,7 +373,7 @@ case class FramePanel(parent: Component)
     propagateDraw(_.fillBoxes(theme))
 
     if (needsClear) {
-      for (y <- 1 to height - 1) {
+      for (y <- 1 until height) {
         screen.put(1, y, " " * (width - 1), background = theme.background)
       }
       needsClear = false
@@ -437,13 +437,13 @@ case class FramePanel(parent: Component)
       heights(i) = newHeight
     }
     // Clear the rest of the panel if heights have changed
-    for (y <- y to height - 1) {
+    for (y <- y until height) {
       screen.put(1, y, " " * (width - 1), background = theme.background)
     }
     screen.unclip()
   }
   
-  def propagateDraw(drawMethod: (FramePanel) => Unit): Unit = {
+  def propagateDraw(drawMethod: FramePanel => Unit): Unit = {
     screen.translateOffset(y = height)
     bottom.foreach(b => drawMethod(b))
     screen.translateOffset(x = width, y = -height)

@@ -34,8 +34,8 @@ object TextWrap {
           line += instruction
         case StopAttribute(attribute) =>
           attribute match {
-            case Foreground => activeAttributes.filterNot { case (k, v) => k.isInstanceOf[Foreground] }
-            case Background => activeAttributes.filterNot { case (k, v) => k.isInstanceOf[Background] }
+            case Foreground => activeAttributes.filterNot { case (k, _) => k.isInstanceOf[Foreground] }
+            case Background => activeAttributes.filterNot { case (k, _) => k.isInstanceOf[Background] }
             case _ => activeAttributes -= attribute
           }
           line += instruction
@@ -52,7 +52,7 @@ object TextWrap {
               line += Text(chunk)
               lines += ((line.toList, spaceLeft))
               line = mutable.MutableList[Instruction]()
-              activeAttributes.foreach { case (k, v) => line += v }
+              activeAttributes.foreach { case (_, v) => line += v }
               chunk = word + " "
               spaceLeft = width - (word.length + 1)
             } else {

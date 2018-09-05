@@ -10,7 +10,7 @@ case class Input(parent: FramePanel, var defaultText: String = "Input")
                 (implicit screen: Scurses) extends Widget(parent) {
 
   var text: Varying[String] = ""
-  def cursorIndex = text.value.length
+  def cursorIndex: Int = text.value.length
 
   override def redraw(focus: Boolean, theme: ColorScheme): Unit = {
     val cursorSymbol = if (focus) Symbols.BLOCK else " "
@@ -27,7 +27,7 @@ case class Input(parent: FramePanel, var defaultText: String = "Input")
     keypress match {
       case Keys.BACKSPACE => if (cursorIndex > 0)
         text := text.value.init
-      case char => text := text.value + keypress.toChar
+      case _ => text := text.value + keypress.toChar
     }
     needsRedraw = true
   }

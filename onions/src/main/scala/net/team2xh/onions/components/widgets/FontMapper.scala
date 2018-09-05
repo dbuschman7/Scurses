@@ -12,19 +12,19 @@ abstract class FontMapper(parent: FramePanel, empty: Seq[String],
 
   override def focusable: Boolean = false
 
-  var height = empty.length
+  var height: Int = empty.length
 
   override def redraw(focus: Boolean, theme: ColorScheme): Unit = {
     val t = text.value
     val h = empty.length
     if (!t.isEmpty) {
       val charsSymbols = t.toLowerCase.map(c => (c, symbols.getOrElse(c, empty).head.length))
-      val wrapped = charsSymbols.foldLeft(Seq[(String, Int)](("", 0))) { case (accu, (c, l)) =>
+      val wrapped = charsSymbols.foldLeft(Seq[(String, Int)](("", 0))) { case (accu, (ch, l)) =>
         val current = accu.last
         if (current._2 + l > innerWidth) {
-          accu :+ (s"$c", l)
+          accu :+ (s"$ch", l)
         } else {
-          accu.init :+ (current._1 + c, current._2 + l)
+          accu.init :+ (current._1 + ch, current._2 + l)
         }
       }
       val wrappedText = wrapped.map(_._1)

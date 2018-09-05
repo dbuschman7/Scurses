@@ -1,19 +1,18 @@
 package net.team2xh.onions.components.widgets
 
-import net.team2xh.onions.Component
 import net.team2xh.onions.Themes.ColorScheme
 import net.team2xh.onions.components.{FramePanel, Widget}
-import net.team2xh.onions.utils.{Varying, TextWrap}
-import net.team2xh.scurses.{Keys, Colors, Scurses}
+import net.team2xh.onions.utils.{TextWrap, Varying}
+import net.team2xh.scurses.{Keys, Scurses}
 
 case class Label(parent: FramePanel, text: Varying[String],
                  alignment: Varying[Int] = TextWrap.ALIGN_LEFT, var action: () => Unit = () => {})
                 (implicit screen: Scurses) extends Widget(parent, text, alignment) {
 
   var enabled = true
-  def focusable = enabled
+  def focusable: Boolean = enabled
 
-  var lines = Seq[String]()
+  var lines: Seq[String] = Seq[String]()
 
   def drawText(foreground: Int, background: Int): Unit = {
     lines = TextWrap.wrapText(text.value, innerWidth - 1, alignment.value)
