@@ -6,7 +6,7 @@ import net.team2xh.scurses.RichText.RichText
 import scala.language.implicitConversions
 
 object Varying {
-  implicit def stringToVarying(value: String): Varying[String] = new Varying(value)
+    implicit def stringToVarying(value: String): Varying[String] = new Varying(value)
   implicit def richTextToVarying(value: RichText): Varying[RichText] = new Varying(value)
   implicit def numericToVarying[T: Numeric](value: T): Varying[T] = new Varying(value)
   implicit def booleanToVarying(value: Boolean): Varying[Boolean] = new Varying(value)
